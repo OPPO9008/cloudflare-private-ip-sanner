@@ -5,9 +5,9 @@ cloudflare 私有/中转 ip扫描工具
 运行目录下创建一个cfip.txt定义扫描范围 
 每行定义一个网段，例如1.0.0.0/24 
 0.0.0.0/0则全网扫描 
-扫描结果：查看log.txt 
-本次测速结果：查看speedlog.txt 
-历史测速结果：查看hspeedlog.txt 
+扫描结果：查看log.txt  
+本次测速结果：查看speedlog.txt  
+历史测速结果：查看hspeedlog.txt  
 
 支持输入参数:
 
