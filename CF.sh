@@ -83,46 +83,6 @@ p_priv_chat_id=""
 ######内置参数定义区域结束######
 ######END######
 
-#检查脚本更新
-newsh=$(curl -k -s -H 'authorization: Basic YWRtaW46anM=' 'https://scancfupate.doremi.workers.dev/get?key=cf.sh' 2>/dev/null)
-latest_ver=$(echo "$newsh" | grep "^ver=" | tr -d "ver=")
-if [ ! "$latest_ver"x = x ] && [ ! "$ver"x = "$latest_ver"x ];then
-filename=${0}
-dir=$(dirname "$filename")
-if [ "$dir"x = x ];then
-    filename="./$filename"
-fi
-if [ ! $(echo "$dir" | awk -F/ '{print $1}')x = x ];then
-    filename="./$filename"
-fi
-echo "本地版本：$ver，服务器版本：$latest_ver，自动更新脚本并运行，出现“更新成功”字样前切勿终止脚本，否则可能导致文件损坏。"
-rm -rf "$filename.bak" &> /dev/null
-beginline=$(echo "$newsh" | grep -n "######START######" | grep -v grep | awk -F: '{print $1}')
-endline=$(echo "$newsh" | grep -n "######END######" | grep -v grep | awk -F: '{print $1}')
-oldsh=$(cat "$filename")
-echo "$newsh" | grep -n '^' | while read -r line
-do
-    linenum=$(echo "$line" | awk -F: '{print $1}')
-    line=$(echo "$line" | sed "s/$linenum://")
-    if [ $linenum -gt $beginline ] && [ $linenum -lt $endline ];then
-    rsvpara=$(echo "$line" | grep -Eo "^([A-Z]|[a-z]|[_-])*?=")
-        if [ ! "$rsvpara"x = x ];then
-        tmpline=$(echo "$oldsh" | grep "^$rsvpara" | head -n 1)
-          if [ ! "$tmpline"x = x ];then
-          line=$tmpline
-          fi
-        fi
-    fi
-    echo "$line" >> "$filename.bak"
-done
-cat "$filename.bak" > "$filename"
-rm -rf "$filename.bak"
-chmod 777 "$filename"
-echo "更新成功，脚本即将自动运行。"
-$filename "$@"
-exit 0
-fi
-
 #解析脚本输入参数
 parse_para()
 {
