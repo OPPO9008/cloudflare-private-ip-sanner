@@ -1,4 +1,4 @@
-# cloudflare-private-ip-san
+# cloudflare-private-ip-sanner
 cloudflare 私有/中转 ip扫描工具
 
 支持输入参数:
